@@ -33,7 +33,7 @@ public class TestRun {
                  
     }
 	
-	@Test(priority = 2, description="Password cannot be blank. (passes)")
+	@Test(priority = 2, description="Password cannot be blank.")
     public void login2() throws InterruptedException, IOException {
         lib.jsSendKeysForID("username", "admin@youthinc.com", "login", "ID");
         lib.jsSendKeysForID("password", " ", "login", "ID");
@@ -42,24 +42,33 @@ public class TestRun {
 	}    
 	
 	
-	@Test(priority = 3, description="Performs an unsuccessful login and checks the dashboard url (passes)")
+	@Test(priority = 3, description="Performs an unsuccessful login invalid password ")
     public void login3() throws InterruptedException, IOException {
         lib.jsSendKeysForID("username", "admin@youthinc.com", "login", "ID");
         lib.jsSendKeysForID("password", "admi", "login", "ID");
         Assert.assertTrue(lib.waitAndClickForID("login", "login", "name"));
         Thread.sleep(2000);
-        Assert.assertEquals(lib.getText("welcomemesg", "login", "class"), "Dashboard");
+        Assert.assertEquals(lib.getCurrentUrl(),"http://69.176.98.99:9356/admin/dashboard");
 	}    
 	
-	@Test(priority = 4, description="Performs an successful login and checks the dashboard url (passes)")
+	@Test(priority = 4, description="Performs an unsuccessful login invalid username ")
     public void login4() throws InterruptedException, IOException {
+        lib.jsSendKeysForID("username", "admi@youthinc.com", "login", "ID");
+        lib.jsSendKeysForID("password", "admin", "login", "ID");
+        Assert.assertTrue(lib.waitAndClickForID("login", "login", "name"));
+        Thread.sleep(2000);
+        Assert.assertEquals(lib.getCurrentUrl(),"http://69.176.98.99:9356/admin/dashboard");
+	}    
+	
+	/*@Test(priority = 5, description="Performs an successful login and checks the dashboard url")
+    public void login5() throws InterruptedException, IOException {
         lib.jsSendKeysForID("username", "admin@youthinc.com", "login", "ID");
         lib.jsSendKeysForID("password", "admin", "login", "ID");
         Assert.assertTrue(lib.waitAndClickForID("login", "login", "name"));
         Thread.sleep(5000);
         Assert.assertEquals(lib.getCurrentUrl(),"http://69.176.98.99:9356/admin/dashboard");
 	}    
-	
+	*/
 		  
 	
 	@AfterTest()
